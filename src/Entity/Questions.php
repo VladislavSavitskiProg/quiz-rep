@@ -6,6 +6,7 @@ use App\Repository\QuestionsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 
 #[ORM\Entity(repositoryClass: QuestionsRepository::class)]
 class Questions
@@ -56,6 +57,7 @@ class Questions
         if (!$this->answers->contains($answer)) {
             $this->answers->add($answer);
             $answer->setQuestions($this);
+            $answer->setCorrected($this);
         }
 
         return $this;
@@ -67,9 +69,15 @@ class Questions
             // set the owning side to null (unless already changed)
             if ($answer->getQuestions() === $this) {
                 $answer->setQuestions(null);
+                $answer->setCorrected(Boolean::class);
             }
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->title;
     }
 }

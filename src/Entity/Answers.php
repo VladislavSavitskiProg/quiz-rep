@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AnswersRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 
 #[ORM\Entity(repositoryClass: AnswersRepository::class)]
 class Answers
@@ -15,6 +16,9 @@ class Answers
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
+
+    #[ORM\Column]
+    private ?bool $corrected = null;
 
     #[ORM\ManyToOne(inversedBy: 'answers')]
     #[ORM\JoinColumn(nullable: false)]
@@ -36,6 +40,17 @@ class Answers
 
         return $this;
     }
+    public function isCorrected(): ?bool
+    {
+        return $this->corrected;
+    }
+
+    public function setCorrected(bool $corrected): static
+    {
+        $this->corrected = $corrected;
+
+        return $this;
+    }
 
     public function getQuestions(): ?Questions
     {
@@ -47,5 +62,10 @@ class Answers
         $this->questions = $questions;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->description;
     }
 }
