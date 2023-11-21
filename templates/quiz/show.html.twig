@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block title %}Quiz - {{ question }}{% endblock %}
+{% block body %}
+  <h2>{{ question }} question</h2>
+  101{% if answers|length > 0 %}
+  {% for answer in answers %}
+    <p>{{ answer.description }}</p>
+  {% endfor %}
+{% else %}
+  <div>No answers</div>
+{% endif %}
+{% endblock %}
